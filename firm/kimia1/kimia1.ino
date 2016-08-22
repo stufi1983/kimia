@@ -5,6 +5,16 @@
 #include <DallasTemperature.h>
 #include <PID_v1.h>
 
+#include "max6675.h"
+
+int thermoDO = 2;
+int thermoCS = 3;
+int thermoCLK = 4;
+MAX6675 thermocouple(thermoCLK, thermoCS, thermoDO);
+int vccPin = 5;
+int gndPin = A0;
+
+
 //Define Variables we'll be connecting to
 double Setpoint, Input, Output;
 //Specify the links and initial tuning parameters
@@ -58,6 +68,13 @@ void setup() {
 
   Serial.begin(9600);
 
+  // use Arduino pins for MAX6675
+  pinMode(vccPin, OUTPUT); digitalWrite(vccPin, HIGH);
+  pinMode(gndPin, OUTPUT); digitalWrite(gndPin, LOW);
+  
+  Serial.println("MAX6675 test");
+  // wait for MAX chip to stabilize
+  delay(500);
 
   //DS1820 Start up the library
   sensors.begin(); // IC Default 9 bit. If you have troubles consider upping it 12. Ups the delay giving the IC more time to process the temperature measurement
@@ -100,6 +117,7 @@ void loop() {
 
   lcd.setCursor(11, 1);
   sensors.requestTemperatures(); // Send the command to get temperatures
+  //-sensorValue = thermocouple.readCelsius();
   sensorValue = sensors.getTempCByIndex(0);
   Serial.println(sensorValue, DEC);
   lcd.print(sensorValue); lcd.write(B11011111); lcd.print("C ");
