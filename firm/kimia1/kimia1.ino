@@ -1,4 +1,4 @@
-
+      
 #include <LiquidCrystal.h>
 #include <TimerOne.h>
 #include <OneWire.h>
@@ -65,7 +65,7 @@ void setup() {
   // read the analog in value:
   VRValue = readTemperature(analogInPin);
   // map it to the range of the analog out:
-  VRValue = map(VRValue, 0, 1023, 30, 130);
+  VRValue = map(VRValue, 0, 1023, 30, 320);
   // change the analog out value:
   Setpoint = VRValue ;
 
@@ -84,7 +84,7 @@ void loop() {
   // read the analog in value:
   VRValue = readTemperature(analogInPin);
   // map it to the range of the analog out:
-  VRValue = map(VRValue, 0, 1023, 30, 130);
+  VRValue = map(VRValue, 0, 1023, 30, 320);
   if (LVRValue != VRValue)changed = 1;
   LVRValue = VRValue;
   // change the analog out value:
